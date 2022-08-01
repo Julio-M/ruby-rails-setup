@@ -7,7 +7,6 @@ Rails backend
 ## Requirements
 
 - Ruby 2.7.4
-- Heroku CLI
 - Postgresql
 
 See Environment Setup below for instructions on installing these tools if you
@@ -20,11 +19,48 @@ Run:
 ```sh
 bundle install
 rails db:create
+rails db:seed #OPTIONAL: there are some seed data to generate doctors and patients
+```
+
+For any changes to the schema run:
+
+```sh
+rails db:migrate
+```
+
+To check the status of your migrations run:
+
+```sh
+rails db:migrate:status
 ```
 
 You can use the following commands to run the application:
 
 - `rails s`: run the backend on [http://localhost:3000](http://localhost:3000)
+
+## Routes
+
+| doctor routes                          | outlets                                      |
+| -------------------------------------- | -------------------------------------------- |
+| /api/v1/doctors                        | Listing all doctors                          |
+| /api/v1/doctors/:id                    | Listing doctor by id                         |
+| /api/v1/doctors/:id                    | Deleting doctor by id                        |
+| /api/v1/doctors/:id/appointment/:ap_id | Deleting specific appointment by doctor's id |
+| /api/v1/doctors/:id/day/:day           | Listing all doctor's appoinments for the day |
+| /api/v1/doctors/:id/all_appointments   | Listing all doctor's                         |
+
+| patient routes       | outlets                |
+| -------------------- | ---------------------- |
+| /api/v1/patients     | Listing all patients   |
+| /api/v1/patients/:id | Listing patient by id  |
+| /api/v1/patients/:id | Deleting patient by id |
+
+| appointment routes             | outlets                                 |
+| ------------------------------ | --------------------------------------- |
+| /api/v1/appointments           | Listing all appointments                |
+| /api/v1/appointments/:id       | Listing appointment by id               |
+| /api/v1/appointments/:id       | Deleting appointment by id              |
+| /api/v1//appointments/day/:day | getting all appointments by for the day |
 
 ## Environment Setup
 
@@ -36,17 +72,6 @@ Verify which version of Ruby you're running by entering this in the terminal:
 ruby -v
 ```
 
-Make sure that the Ruby version you're running is listed in the [supported
-runtimes][] by Heroku. At the time of writing, supported versions are 2.6.8,
-2.7.4, or 3.0.2. Our recommendation is 2.7.4, but make sure to check the site
-for the latest supported versions.
-
-If it's not, you can use `rvm` to install a newer version of Ruby:
-
-```sh
-rvm install 2.7.4 --default
-```
-
 You should also install the latest versions of `bundler` and `rails`:
 
 ```sh
@@ -55,11 +80,6 @@ gem install rails
 ```
 
 ### Install Postgresql
-
-Heroku requires that you use PostgreSQL for your database instead of SQLite.
-PostgreSQL (or just Postgres for short) is an advanced database management
-system with more features than SQLite. If you don't already have it installed,
-you'll need to set it up.
 
 #### PostgreSQL Installation for WSL
 
@@ -90,17 +110,17 @@ username is:
 whoami
 ```
 
-If your username is "ian", for example, you'd need to create a Postgres user
+If your username is "myusername", for example, you'd need to create a Postgres user
 with that same name. To do so, run this command to open the Postgres CLI:
 
 ```sh
 sudo -u postgres -i
 ```
 
-From the Postgres CLI, run this command (replacing "ian" with your username):
+From the Postgres CLI, run this command (replacing "myusername" with your username):
 
 ```sh
-createuser -sr ian
+createuser -sr myusername
 ```
 
 Then enter `control + d` or type `logout` to exit.
