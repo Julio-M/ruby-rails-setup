@@ -39,6 +39,7 @@ class DoctorsController < ApplicationController
     end
   end
 
+  #show all appointments for doctor
   def get_all_appointments
     if @all_appointments.count>0
       render json: @all_appointments, status: :ok
@@ -50,6 +51,7 @@ class DoctorsController < ApplicationController
     end
   end
 
+  #delete a specific appointment
   def destroy_the_appointment
     @destroy_appointment.destroy
     head :no_content
@@ -62,19 +64,25 @@ class DoctorsController < ApplicationController
    @doctor = Doctor.find(params[:id])
   end
 
+  #find appointments by day
+  #Ideally the table for the appoinments would have separte day and time but due to lack of time I didn't change it at the moment
   def find_appoint_day
-    @appointments = Doctor.find(params[:id]).appointments.where(appointment_time: params[:day])
+    ar = Doctor.find(params[:id]).appointments
+    days = ar.map{|ap| ap if ap.appointment_time.to_date==params[:day].to_date}
+    @appointments = days.compact
   end
 
+  #find all appointments given the doctor's id
   def find_all_appointments
     @all_appointments = Doctor.find(params[:id]).appointments.all
   end
 
+  #find appoinment given doctor's id and appointmet's id
   def find_appoint_destroy
     @destroy_appointment = Doctor.find(params[:id]).appointments.find(params[:ap_id])
   end
 
-  #parameters allowed passings
+  #parameters allowed for creating
   def doctor_params
     params.permit(:first_name,:last_name)
   end

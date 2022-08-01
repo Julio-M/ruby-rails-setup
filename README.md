@@ -1,4 +1,4 @@
-# Project Template: React/Rails API
+# Project Template: Rails API
 
 ## Description
 

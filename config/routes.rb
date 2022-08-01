@@ -24,6 +24,5 @@ Rails.application.routes.draw do
   get "#{v1}/appointments/day/:day", to: "appointments#get_app_for_day"
 
   # Routing logic: fallback requests for React Router.
-  # Leave this here to help deploy your app later!
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 end
